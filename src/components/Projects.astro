@@ -1,0 +1,162 @@
+---
+const projects = [
+  {
+    num: '01',
+    status: 'wip',
+    statusLabel: 'En construcción',
+    title: 'AWS Infrastructure Automation',
+    desc: 'Automatización completa de infraestructura en AWS usando Terraform. Incluye VPCs, subnets, grupos de seguridad, instancias EC2 y balanceadores de carga, todo como código versionado y reproducible.',
+    stack: ['Terraform', 'AWS', 'EC2', 'VPC', 'S3'],
+    href: 'https://github.com/JulioRuizdev',
+  },
+  {
+    num: '02',
+    status: 'wip',
+    statusLabel: 'En construcción',
+    title: 'CI/CD Pipeline con GitHub Actions + Kubernetes',
+    desc: 'Pipeline de integración y entrega continua que automatiza build, testing y despliegue en un cluster Kubernetes. Zero-downtime deployments con rolling updates y rollback automático.',
+    stack: ['GitHub Actions', 'Kubernetes', 'Docker', 'Helm'],
+    href: 'https://github.com/JulioRuizdev',
+  },
+  {
+    num: '03',
+    status: 'wip',
+    statusLabel: 'En construcción',
+    title: 'Observability Stack con Prometheus & Grafana',
+    desc: 'Stack de monitoreo completo desplegado en Kubernetes. Métricas con Prometheus, logs centralizados con Loki y dashboards en Grafana con alertas automáticas.',
+    stack: ['Prometheus', 'Grafana', 'Loki', 'K8s', 'Helm'],
+    href: 'https://github.com/JulioRuizdev',
+  },
+];
+---
+
+<section id="projects">
+  <div class="container">
+    <p class="section-label">// projects</p>
+    <h2 class="section-title">Proyectos</h2>
+    <p class="section-sub">Infraestructura, automatización y despliegues en la nube.</p>
+
+    <div class="projects-list">
+      {projects.map(p => (
+        <a href={p.href} target="_blank" rel="noopener" class="project-card card">
+          <div class="project-content">
+            <div class="project-meta">
+              <span class="project-num">{p.num}</span>
+              <span class={`project-status ${p.status}`}>{p.statusLabel}</span>
+            </div>
+            <div class="project-title">{p.title}</div>
+            <p class="project-desc">{p.desc}</p>
+            <div class="project-stack">
+              {p.stack.map(t => <span class="p-tag">{t}</span>)}
+            </div>
+          </div>
+          <span class="project-arrow">→</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .project-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    padding: 2rem 2.2rem;
+    border-radius: 16px;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .project-card:hover { transform: translateX(4px); }
+  .project-card:hover::before { opacity: 1; }
+  .project-card:hover .project-arrow { color: var(--accent); transform: translateX(4px); }
+
+  .project-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .project-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .project-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+  }
+  .project-status.live {
+    background: rgba(52,211,153,0.1);
+    border: 1px solid rgba(52,211,153,0.3);
+    color: #34d399;
+  }
+  .project-status.wip {
+    background: rgba(251,191,36,0.1);
+    border: 1px solid rgba(251,191,36,0.3);
+    color: #fbbf24;
+  }
+
+  .project-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .project-desc {
+    color: var(--text-subtle);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+  .p-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 5px;
+    background: var(--tag-bg);
+    border: 1px solid var(--tag-border);
+    color: var(--text-muted);
+  }
+
+  .project-arrow {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  @media (max-width: 768px) {
+    .project-card  { grid-template-columns: 1fr; }
+    .project-arrow { display: none; }
+  }
+</style>

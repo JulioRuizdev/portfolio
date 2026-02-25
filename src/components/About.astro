@@ -1,0 +1,93 @@
+---
+const stats = [
+  { num: '2+',  label: 'Años en Cloud'  },
+  { num: 'AWS', label: '+ Azure'        },
+  { num: 'K8s', label: 'Orquestación'   },
+  { num: 'IaC', label: 'Terraform'      },
+];
+---
+
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="section-label">// about me</p>
+        <h2 class="section-title">Infraestructura como código,<br />entrega como cultura</h2>
+
+        <p>
+          Soy un <strong>DevOps Engineer</strong> apasionado por construir puentes entre el
+          desarrollo y las operaciones. Me especializo en diseñar pipelines de CI/CD eficientes,
+          gestionar infraestructura cloud escalable y automatizar todo lo que se pueda automatizar.
+        </p>
+        <p>
+          Trabajo con <strong>AWS y Azure</strong> para arquitecturas cloud, <strong>Kubernetes</strong>
+          para orquestación de contenedores y <strong>Terraform</strong> para infraestructura como código.
+          Creo firmemente en la cultura DevOps: automatización, observabilidad y entrega continua.
+        </p>
+        <p>
+          Siempre buscando optimizar, reducir tiempos de despliegue y construir sistemas que escalen
+          sin fricción.
+        </p>
+      </div>
+
+      <div class="about-stats">
+        {stats.map(s => (
+          <div class="stat-card card">
+            <div class="stat-num">{s.num}</div>
+            <div class="stat-label">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--text-subtle);
+    line-height: 1.9;
+    font-size: 1rem;
+  }
+  .about-text p + p { margin-top: 1.2rem; }
+  .about-text strong { color: var(--text); }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    padding: 1.5rem;
+  }
+  .stat-card:hover { transform: translateY(-2px); }
+
+  .stat-num {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>

@@ -1,0 +1,99 @@
+---
+const categories = [
+  {
+    icon: '☁️',
+    name: 'Cloud Providers',
+    tags: ['AWS EC2', 'AWS S3', 'AWS Lambda', 'AWS EKS', 'Azure VM', 'Azure AKS', 'Azure DevOps'],
+  },
+  {
+    icon: '🐳',
+    name: 'Containers & Orquestación',
+    tags: ['Docker', 'Kubernetes', 'Helm', 'Docker Compose', 'containerd'],
+  },
+  {
+    icon: '⚙️',
+    name: 'IaC & Automatización',
+    tags: ['Terraform', 'Ansible', 'Bash', 'Python'],
+  },
+  {
+    icon: '🔁',
+    name: 'CI/CD',
+    tags: ['GitHub Actions', 'Jenkins', 'GitLab CI', 'ArgoCD'],
+  },
+  {
+    icon: '📊',
+    name: 'Monitoring & Observabilidad',
+    tags: ['Prometheus', 'Grafana', 'Loki', 'CloudWatch'],
+  },
+  {
+    icon: '🔐',
+    name: 'Seguridad & Redes',
+    tags: ['VPC', 'IAM', 'Vault', 'SSL/TLS', 'NGINX'],
+  },
+];
+---
+
+<section id="skills">
+  <div class="container">
+    <p class="section-label">// tech stack</p>
+    <h2 class="section-title">Herramientas & Tecnologías</h2>
+    <p class="section-sub">El stack que uso para construir y escalar infraestructura cloud.</p>
+
+    <div class="skills-grid">
+      {categories.map(cat => (
+        <div class="skill-card card">
+          <div class="skill-header">
+            <div class="skill-icon">{cat.icon}</div>
+            <span class="skill-name">{cat.name}</span>
+          </div>
+          <div class="skill-tags">
+            {cat.tags.map(t => <span class="tag">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .skill-card {
+    padding: 1.8rem;
+  }
+  .skill-card:hover { transform: translateY(-2px); }
+
+  .skill-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .skill-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: var(--accent-glow);
+    border: 1px solid var(--tag-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .skill-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>

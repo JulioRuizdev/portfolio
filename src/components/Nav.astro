@@ -1,0 +1,104 @@
+---
+const links = [
+  { href: '#about',    label: 'about'    },
+  { href: '#skills',   label: 'skills'   },
+  { href: '#projects', label: 'projects' },
+  { href: '#contact',  label: 'contact'  },
+];
+---
+
+<nav id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#home" class="logo">julio<span>.</span>r</a>
+
+      <ul class="nav-links">
+        {links.map(l => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+
+      <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">
+        <span id="themeIcon">☀️</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<style>
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 999;
+    padding: 1.2rem 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: background 0.3s;
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  .theme-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.4rem 0.7rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+  }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('themeToggle')!;
+  const icon   = document.getElementById('themeIcon')!;
+  const html   = document.documentElement;
+
+  // Sync icon on load
+  icon.textContent = html.classList.contains('light') ? '🌙' : '☀️';
+
+  toggle.addEventListener('click', () => {
+    const isLight = html.classList.toggle('light');
+    icon.textContent = isLight ? '🌙' : '☀️';
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  });
+</script>

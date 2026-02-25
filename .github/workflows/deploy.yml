@@ -1,13 +1,46 @@
-name: Deploy to VPS
+name: 🚀 Deploy Portfolio
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  deploy:
+  # ── Job 1: Build & Test ─────────────────────────────────────
+  build:
+    name: 🔨 Build
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Astro
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          echo "📦 Build output:"
+          ls -lh dist/
+
+  # ── Job 2: Deploy (solo en push a main) ─────────────────────
+  deploy:
+    name: 🌐 Deploy to DigitalOcean
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
       - name: Checkout repo
@@ -16,15 +49,37 @@ jobs:
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          echo "${{ secrets.DO_SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H 159.223.169.130 >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.DO_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy via SSH
         run: |
-          ssh julio@159.223.169.130 << 'EOF'
+          ssh ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} << 'EOF'
+            set -e
+
+            echo "📂 Navegando al proyecto..."
             cd ~/apps/portfolio
+
+            echo "⬇️  Pull latest changes..."
             git pull origin main
+
+            echo "🐳 Rebuilding container..."
             docker compose down
             docker compose up -d --build
+
+            echo "🧹 Limpiando imágenes antiguas..."
+            docker image prune -f
+
+            echo "✅ Deploy exitoso!"
+            docker compose ps
           EOF
+
+      - name: Notify deploy status
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Deploy completado exitosamente"
+          else
+            echo "❌ Deploy falló — revisar logs"
+          fi

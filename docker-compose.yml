@@ -10,3 +10,4 @@ services:
     labels:
       - "com.portfolio.service=web"
       - "com.portfolio.version=1.0"
+      

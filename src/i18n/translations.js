@@ -133,7 +133,7 @@ export const translations = {
     // Skills Section
     skills: {
       label: '// Tech stack',
-      title: 'Tools I master',
+      title: 'Skills',
       subtitle: 'The stack I use to build and scale cloud infrastructure.',
       categories: {
         cloud: 'Cloud',

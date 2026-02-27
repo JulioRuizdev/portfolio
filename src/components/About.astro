@@ -1,42 +1,46 @@
 ---
-const stats = [
-  { num: '2+',  label: 'Años en Cloud'  },
-  { num: 'AWS', label: '+ Azure'        },
-  { num: 'K8s', label: 'Orquestación'   },
-  { num: 'IaC', label: 'Terraform'      },
-];
 ---
 
 <section id="about">
   <div class="container">
     <div class="about-grid">
       <div class="about-text">
-        <p class="section-label">// Sobre mi</p>
-        <h2 class="section-title">Infraestructura como código,<br />entrega como cultura</h2>
+        <p class="section-label" data-i18n="about.label">// Sobre mi</p>
+        <h2 class="section-title" data-i18n-html="about.title">Infraestructura como código,<br />entrega como cultura</h2>
 
-        <p>
+        <p data-i18n-html="about.description1">
           Soy un <strong>DevOps Engineer</strong> apasionado por construir puentes entre el
           desarrollo y las operaciones. Me especializo en diseñar pipelines de CI/CD eficientes,
           gestionar infraestructura cloud escalable y automatizar todo lo que se pueda automatizar.
         </p>
-        <p>
+        <p data-i18n-html="about.description2">
           Trabajo con <strong>AWS y Azure</strong> para arquitecturas cloud, <strong>Kubernetes</strong>
           para orquestación de contenedores y <strong>Terraform</strong> para infraestructura como código.
           Creo firmemente en la cultura DevOps: automatización, observabilidad y entrega continua.
         </p>
-        <p>
+        <p data-i18n="about.description3">
           Siempre buscando optimizar, reducir tiempos de despliegue y construir sistemas que escalen
           sin fricción.
         </p>
       </div>
 
       <div class="about-stats">
-        {stats.map(s => (
-          <div class="stat-card card">
-            <div class="stat-num">{s.num}</div>
-            <div class="stat-label">{s.label}</div>
-          </div>
-        ))}
+        <div class="stat-card card">
+          <div class="stat-num" data-i18n="about.stats.experience">2+</div>
+          <div class="stat-label" data-i18n="about.stats.experienceLabel">Años en Cloud</div>
+        </div>
+        <div class="stat-card card">
+          <div class="stat-num" data-i18n="about.stats.clouds">AWS</div>
+          <div class="stat-label" data-i18n="about.stats.cloudsLabel">+ Azure</div>
+        </div>
+        <div class="stat-card card">
+          <div class="stat-num" data-i18n="about.stats.orchestration">K8s</div>
+          <div class="stat-label" data-i18n="about.stats.orchestrationLabel">Orquestación</div>
+        </div>
+        <div class="stat-card card">
+          <div class="stat-num" data-i18n="about.stats.iac">IaC</div>
+          <div class="stat-label" data-i18n="about.stats.iacLabel">Terraform</div>
+        </div>
       </div>
     </div>
   </div>
@@ -91,3 +95,50 @@ const stats = [
     .about-stats { grid-template-columns: 1fr 1fr; }
   }
 </style>
+
+<script>
+  import { getTranslations } from '../i18n/translations.js';
+
+  function updateAboutTexts() {
+    const currentLang = document.documentElement.lang || 'es';
+    const t = getTranslations(currentLang);
+    
+    // Update all text elements with translations
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const keys = key.split('.');
+      let value = t;
+      
+      for (const k of keys) {
+        value = value[k];
+        if (!value) break;
+      }
+      
+      if (value) {
+        el.textContent = value;
+      }
+    });
+
+    // Update HTML content for elements with data-i18n-html
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      const keys = key.split('.');
+      let value = t;
+      
+      for (const k of keys) {
+        value = value[k];
+        if (!value) break;
+      }
+      
+      if (value) {
+        el.innerHTML = value;
+      }
+    });
+  }
+
+  // Initial load
+  updateAboutTexts();
+
+  // Listen for language changes
+  window.addEventListener('languageChanged', updateAboutTexts);
+</script>

@@ -2,31 +2,36 @@
 const categories = [
   {
     icon: '☁️',
+    nameKey: 'skills.categories.cloud',
     name: 'Cloud',
     tags: ['AWS EC2', 'AWS S3', 'AWS Lambda', 'AWS EKS', 'Azure VM', 'Azure AKS', 'Azure DevOps'],
   },
   {
     icon: '🐳',
+    nameKey: 'skills.categories.containers',
     name: 'Contenedores & Orquestación',
     tags: ['Docker', 'Kubernetes', 'Helm', 'Docker Compose', 'containerd'],
-  },
-  {
+  },  {
     icon: '⚙️',
+    nameKey: 'skills.categories.iac',
     name: 'IaC & Automatización',
     tags: ['Terraform', 'Ansible', 'Bash', 'Python'],
   },
   {
     icon: '🔁',
+    nameKey: 'skills.categories.cicd',
     name: 'CI/CD',
     tags: ['GitHub Actions', 'Jenkins', 'GitLab CI'],
   },
   {
     icon: '📊',
+    nameKey: 'skills.categories.monitoring',
     name: 'Monitoring & Observabilidad',
     tags: ['Prometheus', 'Grafana', 'Zabbix', 'CloudWatch'],
   },
   {
     icon: '🔐',
+    nameKey: 'skills.categories.security',
     name: 'Seguridad & Redes',
     tags: ['VPC', 'IAM', 'Vault', 'SSL/TLS', 'NGINX'],
   },
@@ -35,16 +40,16 @@ const categories = [
 
 <section id="skills">
   <div class="container">
-    <p class="section-label"></p>
-    <h2 class="section-title">Herramientas & Tecnologías</h2>
-    <p class="section-sub">El stack que uso para construir y escalar infraestructura cloud.</p>
+    <p class="section-label" data-i18n="skills.label">// Stack tecnológico</p>
+    <h2 class="section-title" data-i18n="skills.title">Herramientas que domino</h2>
+    <p class="section-sub" data-i18n="skills.subtitle">El stack que uso para construir y escalar infraestructura cloud.</p>
 
     <div class="skills-grid">
       {categories.map(cat => (
         <div class="skill-card card">
           <div class="skill-header">
             <div class="skill-icon">{cat.icon}</div>
-            <span class="skill-name">{cat.name}</span>
+            <span class="skill-name" data-i18n={cat.nameKey}>{cat.name}</span>
           </div>
           <div class="skill-tags">
             {cat.tags.map(t => <span class="tag">{t}</span>)}
@@ -97,3 +102,34 @@ const categories = [
     gap: 0.5rem;
   }
 </style>
+
+<script>
+  import { getTranslations } from '../i18n/translations.js';
+
+  function updateSkillsTexts() {
+    const currentLang = document.documentElement.lang || 'es';
+    const t = getTranslations(currentLang);
+    
+    // Update all text elements with translations
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const keys = key.split('.');
+      let value = t;
+      
+      for (const k of keys) {
+        value = value[k];
+        if (!value) break;
+      }
+      
+      if (value) {
+        el.textContent = value;
+      }
+    });
+  }
+
+  // Initial load
+  updateSkillsTexts();
+
+  // Listen for language changes
+  window.addEventListener('languageChanged', updateSkillsTexts);
+</script>

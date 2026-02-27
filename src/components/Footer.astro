@@ -4,8 +4,8 @@
 <footer>
   <div class="container">
     <div class="footer-inner">
-      <span class="footer-copy">© 2025 Julio Ruiz — DevOps Engineer</span>
-      <a href="#home" class="footer-back">↑ volver arriba</a>
+      <span class="footer-copy" data-i18n="footer.copy">© 2025 Julio Ruiz — DevOps Engineer</span>
+      <a href="#home" class="footer-back" data-i18n="footer.backToTop">↑ volver arriba</a>
     </div>
   </div>
 </footer>
@@ -43,3 +43,34 @@
   }
   .footer-back:hover { color: var(--accent); }
 </style>
+
+<script>
+  import { getTranslations } from '../i18n/translations.js';
+
+  function updateFooterTexts() {
+    const currentLang = document.documentElement.lang || 'es';
+    const t = getTranslations(currentLang);
+    
+    // Update all text elements with translations
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const keys = key.split('.');
+      let value = t;
+      
+      for (const k of keys) {
+        value = value[k];
+        if (!value) break;
+      }
+      
+      if (value) {
+        el.textContent = value;
+      }
+    });
+  }
+
+  // Initial load
+  updateFooterTexts();
+
+  // Listen for language changes
+  window.addEventListener('languageChanged', updateFooterTexts);
+</script>

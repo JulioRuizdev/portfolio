@@ -1,10 +1,4 @@
 ---
-const links = [
-  { href: '#about',    label: 'Acerca de mi'    },
-  { href: '#skills',   label: 'Habilidades'   },
-  { href: '#projects', label: 'Proyectos' },
-  { href: '#contact',  label: 'contacto'  },
-];
 ---
 
 <nav id="nav">
@@ -13,14 +7,21 @@ const links = [
       <a href="#home" class="logo">julio<span>.</span>r</a>
 
       <ul class="nav-links">
-        {links.map(l => (
-          <li><a href={l.href}>{l.label}</a></li>
-        ))}
+        <li><a href="#about" data-i18n="nav.about">Acerca de mi</a></li>
+        <li><a href="#skills" data-i18n="nav.skills">Habilidades</a></li>
+        <li><a href="#projects" data-i18n="nav.projects">Proyectos</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">Contacto</a></li>
       </ul>
 
-      <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">
-        <span id="themeIcon">☀️</span>
-      </button>
+      <div class="controls">
+        <button id="langToggle" class="lang-btn" aria-label="Toggle language">
+          <span id="langIcon">🇪🇸</span>
+        </button>
+        
+        <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">
+          <span id="themeIcon">☀️</span>
+        </button>
+      </div>
     </div>
   </div>
 </nav>
@@ -69,7 +70,13 @@ const links = [
   }
   .nav-links a:hover { color: var(--accent); }
 
-  .theme-btn {
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .lang-btn, .theme-btn {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -81,7 +88,10 @@ const links = [
     display: flex;
     align-items: center;
   }
-  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .lang-btn:hover, .theme-btn:hover { 
+    border-color: var(--accent); 
+    color: var(--accent); 
+  }
 
   @media (max-width: 768px) {
     .nav-links { display: none; }
@@ -89,16 +99,67 @@ const links = [
 </style>
 
 <script>
-  const toggle = document.getElementById('themeToggle')!;
-  const icon   = document.getElementById('themeIcon')!;
-  const html   = document.documentElement;
+  import { getTranslations } from '../i18n/translations.js';
 
-  // Sync icon on load
-  icon.textContent = html.classList.contains('light') ? '🌙' : '☀️';
+  // Get elements
+  const themeToggle = document.getElementById('themeToggle')!;
+  const themeIcon = document.getElementById('themeIcon')!;
+  const langToggle = document.getElementById('langToggle')!;
+  const langIcon = document.getElementById('langIcon')!;
+  const html = document.documentElement;
 
-  toggle.addEventListener('click', () => {
+  // Initialize theme
+  themeIcon.textContent = html.classList.contains('light') ? '🌙' : '☀️';
+
+  // Initialize language
+  const currentLang = localStorage.getItem('language') || 'es';
+  langIcon.textContent = currentLang === 'es' ? '🇪🇸' : '🇺🇸';
+  updateTexts(currentLang);
+
+  // Theme toggle
+  themeToggle.addEventListener('click', () => {
     const isLight = html.classList.toggle('light');
-    icon.textContent = isLight ? '🌙' : '☀️';
+    themeIcon.textContent = isLight ? '🌙' : '☀️';
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
   });
+
+  // Language toggle
+  langToggle.addEventListener('click', () => {
+    const newLang = html.lang === 'es' ? 'en' : 'es';
+    html.lang = newLang;
+    html.setAttribute('data-lang', newLang);
+    langIcon.textContent = newLang === 'es' ? '🇪🇸' : '🇺🇸';
+    localStorage.setItem('language', newLang);
+    updateTexts(newLang);
+    
+    // Dispatch custom event for other components to listen
+    window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: newLang } }));
+  });
+
+  function updateTexts(lang) {
+    const t = getTranslations(lang);
+    
+    // Update navigation links
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const keys = key.split('.');
+      let value = t;
+      
+      for (const k of keys) {
+        value = value[k];
+        if (!value) break;
+      }
+      
+      if (value) {
+        el.textContent = value;
+      }
+    });
+
+    // Update page title and meta
+    document.title = t.meta.title;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', t.meta.description);
+    }
+  }
 </script>

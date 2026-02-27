@@ -5,9 +5,9 @@
   <div class="container">
     <div class="contact-inner">
       <div class="contact-left">
-        <p class="section-label"></p>
-        <h2>¿Trabajamos juntos?</h2>
-        <p>
+        <p class="section-label" data-i18n="contact.label">// Hagamos algo juntos</p>
+        <h2 data-i18n="contact.title">¿Trabajamos juntos?</h2>
+        <p data-i18n="contact.description">
           Abierto a nuevas oportunidades, proyectos freelance o simplemente charlar sobre
           DevOps y Cloud. No dudes en escribirme.
         </p>
@@ -42,14 +42,14 @@
       <div class="availability card">
         <div class="avail-indicator">
           <div class="pulse"></div>
-          <span class="avail-text">DISPONIBLE</span>
+          <span class="avail-text" data-i18n="contact.availability.status">DISPONIBLE</span>
         </div>
-        <h3>Listo para el próximo desafío</h3>
-        <p>
+        <h3 data-i18n="contact.availability.title">Listo para el próximo desafío</h3>
+        <p data-i18n="contact.availability.description">
           Busco oportunidades donde pueda aplicar mis skills en Cloud y DevOps para construir
           infraestructura robusta y pipelines eficientes.
         </p>
-        <a href="https://www.linkedin.com/in/juliocesarruizcardenas/" target="_blank" rel="noopener" class="btn-primary" style="width:100%;justify-content:center;">
+        <a href="https://www.linkedin.com/in/juliocesarruizcardenas/" target="_blank" rel="noopener" class="btn-primary" style="width:100%;justify-content:center;" data-i18n="contact.availability.cta">
           Conectar en LinkedIn →
         </a>
       </div>
@@ -132,3 +132,34 @@
     .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
   }
 </style>
+
+<script>
+  import { getTranslations } from '../i18n/translations.js';
+
+  function updateContactTexts() {
+    const currentLang = document.documentElement.lang || 'es';
+    const t = getTranslations(currentLang);
+    
+    // Update all text elements with translations
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const keys = key.split('.');
+      let value = t;
+      
+      for (const k of keys) {
+        value = value[k];
+        if (!value) break;
+      }
+      
+      if (value) {
+        el.textContent = value;
+      }
+    });
+  }
+
+  // Initial load
+  updateContactTexts();
+
+  // Listen for language changes
+  window.addEventListener('languageChanged', updateContactTexts);
+</script>

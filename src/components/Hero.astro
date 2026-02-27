@@ -8,28 +8,28 @@
     <div class="hero-inner">
       <!-- Left: Copy -->
       <div class="hero-copy">
-        <p class="hero-label fade-up">DevOps Engineer</p>
+        <p class="hero-label fade-up" data-i18n="hero.role">DevOps Engineer</p>
 
         <h1 class="fade-up delay-1">
-          Hola, soy<br />
+          <span data-i18n="hero.greeting">Hola, soy</span><br />
           <span class="name-accent">Julio Ruiz</span>
         </h1>
 
-        <p class="hero-desc fade-up delay-2">
+        <p class="hero-desc fade-up delay-2" data-i18n="hero.description">
           Automatizando infraestructura, acelerando despliegues y construyendo
           sistemas resilientes en la nube. Especialista en AWS, Azure, Kubernetes y CI/CD.
         </p>
 
         <div class="hero-cta fade-up delay-3">
-          <a href="#projects" class="btn-primary">Ver proyectos →</a>
-          <a href="#contact"  class="btn-ghost">Hablemos</a>
+          <a href="#projects" class="btn-primary" data-i18n="hero.viewProjects">Ver proyectos →</a>
+          <a href="#contact"  class="btn-ghost" data-i18n="hero.letsTalk">Hablemos</a>
           <a href="/cv/CV-JulioRuiz.pdf" download class="btn-ghost">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="7 10 12 15 17 10"/>
               <line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
-            Descargar CV
+            <span data-i18n="hero.downloadCV">Descargar CV</span>
           </a>
         </div>
 
@@ -150,3 +150,34 @@
     .terminal   { display: none; }
   }
 </style>
+
+<script>
+  import { getTranslations } from '../i18n/translations.js';
+
+  function updateHeroTexts() {
+    const currentLang = document.documentElement.lang || 'es';
+    const t = getTranslations(currentLang);
+    
+    // Update all text elements with translations
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const keys = key.split('.');
+      let value = t;
+      
+      for (const k of keys) {
+        value = value[k];
+        if (!value) break;
+      }
+      
+      if (value) {
+        el.textContent = value;
+      }
+    });
+  }
+
+  // Initial load
+  updateHeroTexts();
+
+  // Listen for language changes
+  window.addEventListener('languageChanged', updateHeroTexts);
+</script>

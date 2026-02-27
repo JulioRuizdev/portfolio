@@ -3,8 +3,9 @@ const projects = [
   {
     num: '01',
     status: 'wip',
-    statusLabel: 'En construcción',
+    titleKey: 'projects.list.0.title',
     title: 'AWS Infrastructure Automation',
+    descKey: 'projects.list.0.desc',
     desc: 'Automatización completa de infraestructura en AWS usando Terraform. Incluye VPCs, subnets, grupos de seguridad, instancias EC2 y balanceadores de carga, todo como código versionado y reproducible.',
     stack: ['Terraform', 'AWS', 'EC2', 'VPC', 'S3'],
     href: 'https://github.com/JulioRuizdev',
@@ -12,8 +13,9 @@ const projects = [
   {
     num: '02',
     status: 'wip',
-    statusLabel: 'En construcción',
+    titleKey: 'projects.list.1.title',
     title: 'CI/CD Pipeline con GitHub Actions + Kubernetes',
+    descKey: 'projects.list.1.desc',
     desc: 'Pipeline de integración y entrega continua que automatiza build, testing y despliegue en un cluster Kubernetes. Zero-downtime deployments con rolling updates y rollback automático.',
     stack: ['GitHub Actions', 'Kubernetes', 'Docker', 'Helm'],
     href: 'https://github.com/JulioRuizdev',
@@ -21,8 +23,9 @@ const projects = [
   {
     num: '03',
     status: 'wip',
-    statusLabel: 'En construcción',
+    titleKey: 'projects.list.2.title',
     title: 'Observability Stack con Prometheus & Grafana',
+    descKey: 'projects.list.2.desc',
     desc: 'Stack de monitoreo completo desplegado en Kubernetes. Métricas con Prometheus, logs centralizados con Loki y dashboards en Grafana con alertas automáticas.',
     stack: ['Prometheus', 'Grafana', 'Loki', 'K8s', 'Helm'],
     href: 'https://github.com/JulioRuizdev',
@@ -32,9 +35,9 @@ const projects = [
 
 <section id="projects">
   <div class="container">
-    <p class="section-label"></p>
-    <h2 class="section-title">Proyectos</h2>
-    <p class="section-sub">Infraestructura, automatización y despliegues en la nube.</p>
+    <p class="section-label" data-i18n="projects.label">// Proyectos destacados</p>
+    <h2 class="section-title" data-i18n="projects.title">Proyectos</h2>
+    <p class="section-sub" data-i18n="projects.subtitle">Infraestructura, automatización y despliegues en la nube.</p>
 
     <div class="projects-list">
       {projects.map(p => (
@@ -42,10 +45,10 @@ const projects = [
           <div class="project-content">
             <div class="project-meta">
               <span class="project-num">{p.num}</span>
-              <span class={`project-status ${p.status}`}>{p.statusLabel}</span>
+              <span class={`project-status ${p.status}`} data-i18n={`projects.status.${p.status}`}>{p.status === 'wip' ? 'En construcción' : 'En vivo'}</span>
             </div>
-            <div class="project-title">{p.title}</div>
-            <p class="project-desc">{p.desc}</p>
+            <div class="project-title" data-i18n={p.titleKey}>{p.title}</div>
+            <p class="project-desc" data-i18n={p.descKey}>{p.desc}</p>
             <div class="project-stack">
               {p.stack.map(t => <span class="p-tag">{t}</span>)}
             </div>
@@ -160,3 +163,34 @@ const projects = [
     .project-arrow { display: none; }
   }
 </style>
+
+<script>
+  import { getTranslations } from '../i18n/translations.js';
+
+  function updateProjectsTexts() {
+    const currentLang = document.documentElement.lang || 'es';
+    const t = getTranslations(currentLang);
+    
+    // Update all text elements with translations
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const keys = key.split('.');
+      let value = t;
+      
+      for (const k of keys) {
+        value = value[k];
+        if (!value) break;
+      }
+      
+      if (value) {
+        el.textContent = value;
+      }
+    });
+  }
+
+  // Initial load
+  updateProjectsTexts();
+
+  // Listen for language changes
+  window.addEventListener('languageChanged', updateProjectsTexts);
+</script>

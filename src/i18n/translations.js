@@ -50,7 +50,7 @@ export const translations = {
     },
     // Projects Section
     projects: {
-      label: '// Proyectos destacados',
+      label: '// Proyectos',
       title: 'Proyectos',
       subtitle: 'Infraestructura, automatización y despliegues en la nube.',
       status: {

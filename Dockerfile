@@ -22,3 +22,4 @@ EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
 
+#prueba de cambio en el dockerfile

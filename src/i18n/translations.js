@@ -9,7 +9,7 @@ export const translations = {
     },
     // Hero Section
     hero: {
-      role: 'DevOps Engineer',
+      role: 'Cloud Engineer',
       greeting: 'Hola, soy',
       description: 'Automatizando infraestructura, acelerando despliegues y construyendo sistemas resilientes en la nube. Especialista en AWS, Azure, Kubernetes y CI/CD.',
       viewProjects: 'Ver proyectos →',

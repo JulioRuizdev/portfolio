@@ -97,19 +97,3 @@ src/
 └── styles/
     └── global.css      ← Variables CSS, dark/light mode
 ```
-
-## Agregar un proyecto nuevo
-
-Edita `src/components/Projects.astro` y agrega un objeto al array `projects`:
-
-```js
-{
-  num: '04',
-  status: 'live',        // 'live' | 'wip'
-  statusLabel: 'Live',
-  title: 'Nombre del proyecto',
-  desc: 'Descripción corta del proyecto.',
-  stack: ['Terraform', 'AWS'],
-  href: 'https://github.com/JulioRuizdev/mi-repo',
-}
-```

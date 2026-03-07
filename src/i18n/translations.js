@@ -48,7 +48,7 @@ export const translations = {
         security: 'Seguridad & Redes'
       }
     },
-    // Projects Section
+    // Projects Section .
     projects: {
       label: '// Proyectos',
       title: 'Proyectos',

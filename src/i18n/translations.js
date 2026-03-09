@@ -72,6 +72,21 @@ export const translations = {
         }
       ]
     },
+    // Testimonials Section
+    testimonials: {
+      label: '// Recomendaciones',
+      title: 'Lo que dicen colegas',
+      subtitle: 'Recomendaciones verificadas de profesionales con quienes he trabajado.',
+      verifyLabel: 'Ver en LinkedIn',
+      list: [
+        {
+          name: 'Junior Klinsman Diaz Vallejos',
+          role: 'SysOps & Cloud Administrator · Azure · Security Hardening',
+          date: '7 de marzo de 2026',
+          text: 'Tuve la oportunidad de trabajar con Julio durante su etapa en el equipo y fue una muy buena experiencia. Desde el inicio me sorprendieron sus habilidades técnicas para el puesto, así como su capacidad para entender rápidamente los problemas y buscar soluciones. Además, algo que siempre destacó en él fue su apertura para escuchar, recibir feedback y seguir aprendiendo. Tiene una actitud muy positiva frente a los retos y siempre mostraba interés por entender las cosas a fondo.'
+        }
+      ]
+    },
     // Contact Section
     contact: {
       label: '// Hagamos algo juntos',
@@ -165,6 +180,21 @@ export const translations = {
         {
           title: 'Observability Stack with Prometheus & Grafana',
           desc: 'Complete monitoring stack deployed on Kubernetes. Metrics with Prometheus, centralized logs with Loki and Grafana dashboards with automatic alerts.'
+        }
+      ]
+    },
+    // Testimonials Section
+    testimonials: {
+      label: '// Recommendations',
+      title: 'What colleagues say',
+      subtitle: 'Verified recommendations from professionals I have worked with.',
+      verifyLabel: 'View on LinkedIn',
+      list: [
+        {
+          name: 'Junior Klinsman Diaz Vallejos',
+          role: 'SysOps & Cloud Administrator · Azure · Security Hardening',
+          date: 'March 7, 2026',
+          text: 'I had the opportunity to work with Julio during his time on the team and it was a very good experience. From the start I was impressed by his technical skills for the role, as well as his ability to quickly understand problems and find solutions. Something that always stood out about him was his openness to listen, receive feedback and keep learning. He has a very positive attitude towards challenges and always showed interest in understanding things deeply.'
         }
       ]
     },

@@ -48,7 +48,13 @@ export const translations = {
         security: 'Seguridad & Redes'
       }
     },
-    // Projects Section .
+    // Companies Section
+    companies: {
+      label: '// Trayectoria profesional',
+      title: 'Empresas',
+      subtitle: 'Organizaciones donde he aportado valor con infraestructura cloud.'
+    },
+    // Projects Section
     projects: {
       label: '// Proyectos',
       title: 'Proyectos',
@@ -158,6 +164,12 @@ export const translations = {
         monitoring: 'Monitoring & Observability',
         security: 'Security & Networks'
       }
+    },
+    // Companies Section
+    companies: {
+      label: '// Professional journey',
+      title: 'Companies',
+      subtitle: 'Organizations where I have delivered value with cloud infrastructure.'
     },
     // Projects Section
     projects: {
